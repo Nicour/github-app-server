@@ -27,7 +27,9 @@ router.get('/:organization', async (req, res, next) => {
       if(!req.session.recentSearchedOrganizations) {
         req.session.recentSearchedOrganizations = [organization];
       } else {
-        req.session.recentSearchedOrganizations.push(organization);
+        if(!req.session.recentSearchedOrganizations.includes(organization)) {
+          req.session.recentSearchedOrganizations.push(organization);
+        }
       }
 
       res.status(200).json({ 
@@ -37,7 +39,7 @@ router.get('/:organization', async (req, res, next) => {
     .catch(e => {
       res.send(e);
     });
-    
+
   } catch (error) {
     next(error);
   }
@@ -51,13 +53,16 @@ router.get('/:organization/:repo', (req, res, next) => {
       if(!req.session.recentSearchedRepos) {
         req.session.recentSearchedRepos = [{
           organization: organization, 
-          repo: repo
+          name: repo
         }];
       } else {
-        req.session.recentSearchedRepos.push({
-          organization: organization, 
-          repo: repo
-        });
+        const found = req.session.recentSearchedRepos.some(element => element.name === repo);
+        if (!found) {
+          req.session.recentSearchedRepos.push({
+            organization: organization, 
+            name: repo
+          });
+        }
       }
       res.send(response.data);
     })
