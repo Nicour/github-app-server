@@ -7,6 +7,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const passport = require('passport');
+require('dotenv').config();
 
 const auth = require('./routes/auth');
 const organizationRepos = require('./routes/organizationRepos');
@@ -27,7 +28,7 @@ app.use(session({
     mongooseConnection: mongoose.connection,
     ttl: 12 * 60 * 60
   }),
-  secret: 'alalalala',
+  secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
   clear_interval: 900,
@@ -37,7 +38,7 @@ app.use(session({
   }
 }));
 
-mongoose.connect("mongodb+srv://dbUser:1234566@cluster0.6327b.mongodb.net/github-app?retryWrites=true&w=majority", {
+mongoose.connect(process.env.MONGO_URL, {
   keepAlive: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
