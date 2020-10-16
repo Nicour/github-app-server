@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start-dev": "nodemon --inspect -e js,json ./bin/www"
+    "start-dev": "nodemon -e js,json ./bin/www"
   },
   "dependencies": {
     "axios": "^0.20.0",

@@ -34,6 +34,7 @@ app.use(session({
   clear_interval: 900,
   cookie: {
     originalMaxAge: null,
+    maxAge: 24 * 60 * 60 * 1 * 1000,
     path: '/'
   }
 }));
