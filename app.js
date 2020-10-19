@@ -29,6 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(cookieParser());
+app.set('trust proxy', 1);
 
 app.use(session({
   store: new MongoStore({
@@ -36,12 +37,13 @@ app.use(session({
     ttl: 24 * 60 * 60
   }),
   secret: process.env.SESSION_SECRET,
-  resave: true,
+  resave: false,
   saveUninitialized: true,
   clear_interval: 900,
   cookie: {
     originalMaxAge: null,
-    maxAge: 24 * 60 * 60 * 1 * 1000,
+    secure: true
+    maxAge: 1000 * 60 * 60 * 24,
     path: '/'
   }
 }));
