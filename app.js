@@ -15,12 +15,9 @@ const organizationRepos = require('./routes/organizationRepos');
 
 const app = express();
 
-app.use(
-  cors({
-    credentials: true,
-    origin: 'https://mystifying-knuth-fe1f6c.netlify.app/'
-  })
-)
+const allowedOrigin = ['https://mystifying-knuth-fe1f6c.netlify.app/'];
+
+app.use(cors({ credentials: true, origin: allowedOrigin }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(express.json());
@@ -29,6 +26,21 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(cookieParser());
+
+app.all('*', (req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.indexOf(origin) > -1) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  };
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+  res.setHeader('set-cookie', [
+  'same-site-cookie=bar; SameSite=Lax',
+  'cross-site-cookie=foo; SameSite=None; Secure'
+]);
+  next();
+});
 
 app.use(session({
   store: new MongoStore({
