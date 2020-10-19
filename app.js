@@ -18,7 +18,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: 'https://mystifying-knuth-fe1f6c.netlify.app'
+    origin: 'https://mystifying-knuth-fe1f6c.netlify.app/'
   })
 )
 app.use(express.static(path.join(__dirname, 'public')));
