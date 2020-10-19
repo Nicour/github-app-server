@@ -38,11 +38,8 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  clear_interval: 900,
   cookie: {
-    originalMaxAge: null,
-    maxAge: 24 * 60 * 60 * 1 * 1000,
-    path: '/'
+    maxAge: 24 * 60 * 60 * 1 * 1000
   }
 }));
 
