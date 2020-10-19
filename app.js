@@ -7,6 +7,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const passport = require('passport');
+const cors = require('cors');
 require('dotenv').config();
 
 const auth = require('./routes/auth');
@@ -14,6 +15,12 @@ const organizationRepos = require('./routes/organizationRepos');
 
 const app = express();
 
+app.use(
+  cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+  })
+)
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(express.json());
@@ -53,7 +60,7 @@ mongoose.connect(process.env.MONGO_URL, {
 });
 
 app.use('/auth', auth);
-app.use('/', organizationRepos);
+app.use('/orgs', organizationRepos);
 
 app.use((req, res, next) => {
   res.status(404).json({ code: 'not found' });

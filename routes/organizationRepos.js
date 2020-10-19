@@ -55,6 +55,7 @@ router.get('/:owner/:repo', (req, res, next) => {
         contributors: [],
         name: response.data.name,
         owner: response.data.owner.login,
+        owner_url: response.data.owner.html_url,
         ownerAvatarUrl: response.data.owner.avatar_url,
         description: response.data.description,
         repoUrl: response.data.html_url
