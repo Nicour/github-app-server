@@ -29,7 +29,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(cookieParser());
-app.set('trust proxy', 1);
 
 app.use(session({
   store: new MongoStore({
