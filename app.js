@@ -18,7 +18,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: 'https://mystifying-knuth-fe1f6c.netlify.app'
+    origin: 'http://localhost:3000'
   })
 )
 app.use(express.static(path.join(__dirname, 'public')));
@@ -33,17 +33,20 @@ app.use(cookieParser());
 app.use(session({
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
-    ttl: 24 * 60 * 60
+    ttl: 12 * 60 * 60
   }),
-  secret: process.env.SESSION_SECRET,
-  resave: false,
+  secret: "secret",
+  resave: true,
   saveUninitialized: true,
+  clear_interval: 900,
   cookie: {
-    maxAge: 24 * 60 * 60 * 1 * 1000
+    originalMaxAge: null,
+    maxAge: 24 * 60 * 60 * 1 * 1000,
+    path: '/'
   }
 }));
 
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect("mongodb+srv://dbUser:1234566@cluster0.6327b.mongodb.net/github-app?retryWrites=true&w=majority", {
   keepAlive: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
